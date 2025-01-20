@@ -1,0 +1,9 @@
+node_modules/
+.cache/
+dist/
+__pycache__/
+*.pyc
+venv/
+.env
+.env.*
+!.env.example 
