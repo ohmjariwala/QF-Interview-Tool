@@ -41,10 +41,10 @@ const fetchWithTimeout = async (url, options = {}) => {
 };
 
 export const generateProblemUrl = (problemType, difficulty) =>
-  `${API_URL}/problems/generate?problem_type=${problemType}&difficulty=${difficulty}`;
+  `${API_URL}/api/problems/generate?problem_type=${problemType}&difficulty=${difficulty}`;
 
 export const getPracticeProblemsUrl = () =>
-  `${API_URL}/problems/practice`;
+  `${API_URL}/api/problems/practice`;
 
 export const fetchApi = async (url) => {
   try {
