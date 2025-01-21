@@ -1,0 +1,60 @@
+QF Interview Tool - Important Terminal Commands
+==========================================
+
+Backend (Python FastAPI)
+-----------------------
+
+# Start the backend server (from backend/python/src directory)
+python3 -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+# This command:
+# - Starts the FastAPI server on port 8000
+# - Enables auto-reload for development
+# - Allows connections from any IP (0.0.0.0)
+# - Uses the 'app' variable from main.py
+
+# Create and activate Python virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On macOS/Linux
+.\venv\Scripts\activate   # On Windows
+
+# Install Python dependencies
+pip install -r requirements.txt
+# or install individual packages:
+pip install fastapi uvicorn python-dotenv numpy pandas scipy scikit-learn statsmodels yfinance
+
+Frontend (React/Vite)
+--------------------
+
+# Start frontend development server (from frontend directory)
+npm run dev
+# Starts Vite dev server with hot reload
+
+# Install frontend dependencies
+npm install
+# Install specific packages:
+npm install @mui/material @emotion/react @emotion/styled axios react-router-dom
+
+# Build frontend for production
+npm run build
+# Creates optimized build in dist directory
+
+# Deploy to GitHub Pages
+npm run deploy
+# Builds and deploys to gh-pages branch
+
+Git Commands
+-----------
+
+# Initialize repository
+git init
+
+# Add and commit changes
+git add .
+git commit -m "your commit message"
+
+# Push to GitHub
+git push origin main
+
+# Deploy specific
+git push -f origin main  # Force push (use carefully)
+git subtree push --prefix frontend origin gh-pages  # Alternative way to deploy to GitHub Pages 
