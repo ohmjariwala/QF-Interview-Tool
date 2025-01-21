@@ -1,8 +1,7 @@
 import numpy as np
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 import random
 from datetime import datetime, timedelta
-from .scraper import QuestionScraper
 
 class ProblemGenerator:
     def __init__(self):
@@ -12,40 +11,9 @@ class ProblemGenerator:
             'portfolio_optimization',
             'probability',
             'statistics',
-            'stochastic_processes',
-            'quant_interview'  # New type for scraped questions
+            'stochastic_processes'
         ]
-        self.scraper = QuestionScraper()
-        self.scraped_questions: List[Dict] = []
-        self.refresh_scraped_questions()
 
-    def refresh_scraped_questions(self):
-        """Refresh the cache of scraped questions."""
-        try:
-            self.scraped_questions = self.scraper.get_all_questions()
-        except Exception as e:
-            print(f"Error refreshing scraped questions: {str(e)}")
-            # Keep existing questions if refresh fails
-            if not self.scraped_questions:
-                self.scraped_questions = []
-
-    def get_scraped_problem(self, difficulty: Optional[str] = None) -> Dict[str, Any]:
-        """Get a random scraped problem."""
-        if not self.scraped_questions:
-            self.refresh_scraped_questions()
-        
-        if not self.scraped_questions:
-            raise ValueError("No scraped questions available")
-
-        question = random.choice(self.scraped_questions)
-        return {
-            'type': 'quant_interview',
-            'difficulty': difficulty or random.choice(self.difficulty_levels),
-            'question': question['question'],
-            'source': question['source']
-        }
-
-# naive problem generator
     def generate_option_pricing_problem(self, difficulty: str) -> Dict[str, Any]:
         """Generate an option pricing problem."""
         if difficulty == 'easy':
@@ -149,9 +117,7 @@ class ProblemGenerator:
         if difficulty not in self.difficulty_levels:
             raise ValueError(f"Invalid difficulty: {difficulty}. Must be one of {self.difficulty_levels}")
 
-        if problem_type == 'quant_interview':
-            return self.get_scraped_problem(difficulty)
-        elif problem_type == 'option_pricing':
+        if problem_type == 'option_pricing':
             return self.generate_option_pricing_problem(difficulty)
         elif problem_type == 'portfolio_optimization':
             return self.generate_portfolio_problem(difficulty)
@@ -159,10 +125,6 @@ class ProblemGenerator:
             return self.generate_probability_problem(difficulty)
         else:
             raise ValueError(f"Unknown problem type: {problem_type}")
-
-# Example usage:
-# generator = ProblemGenerator()
-# problem = generator.generate_problem(problem_type='option_pricing', difficulty='medium') 
 
 if __name__ == "__main__":
     generator = ProblemGenerator()

@@ -21,16 +21,19 @@ app = FastAPI(
 # Configure CORS
 origins = [
     "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://ohmjariwala.github.io",
     "http://localhost:3000",
-    "https://ohmjariwala.github.io"
+    "http://127.0.0.1:3000"
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=False,  # Set to False when using "*" for origins
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 # Initialize problem generator

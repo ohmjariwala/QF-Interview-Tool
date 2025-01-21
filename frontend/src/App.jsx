@@ -6,7 +6,6 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ProblemGenerator from './pages/ProblemGenerator';
 import Practice from './pages/Practice';
-import InterviewQuestions from './pages/InterviewQuestions';
 
 // Create a dark theme
 const darkTheme = createTheme({
@@ -33,7 +32,6 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/generate" element={<ProblemGenerator />} />
               <Route path="/practice" element={<Practice />} />
-              <Route path="/interview" element={<InterviewQuestions />} />
             </Routes>
           </Container>
         </Box>
