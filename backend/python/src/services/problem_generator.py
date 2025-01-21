@@ -10,9 +10,9 @@ class ProblemGenerator:
             'option_pricing',
             'portfolio_optimization',
             'probability',
-            'statistics',
-            'stochastic_processes'
+            'statistics'
         ]
+        self.scraped_questions = []
 
     def generate_option_pricing_problem(self, difficulty: str) -> Dict[str, Any]:
         """Generate an option pricing problem."""
@@ -23,14 +23,13 @@ class ProblemGenerator:
             r = round(random.uniform(0.01, 0.05), 3)
             sigma = round(random.uniform(0.15, 0.30), 2)
         else:
-            # More complex scenarios for medium/hard difficulties
             S = round(random.uniform(50, 150), 2)
             K = round(S * random.uniform(0.7, 1.3), 2)
             T = round(random.uniform(0.1, 2.0), 2)
             r = round(random.uniform(0.001, 0.08), 3)
             sigma = round(random.uniform(0.10, 0.50), 2)
 
-        problem = {
+        return {
             'type': 'option_pricing',
             'difficulty': difficulty,
             'parameters': {
@@ -40,16 +39,13 @@ class ProblemGenerator:
                 'risk_free_rate': r,
                 'volatility': sigma
             },
-            'question': f"""
-            Calculate the Black-Scholes price for a European call option with:
+            'question': f"""Calculate the Black-Scholes price for a European call option with:
             - Current stock price: ${S}
             - Strike price: ${K}
             - Time to maturity: {T} years
             - Risk-free rate: {r*100}%
-            - Volatility: {sigma*100}%
-            """
+            - Volatility: {sigma*100}%"""
         }
-        return problem
 
     def generate_portfolio_problem(self, difficulty: str) -> Dict[str, Any]:
         """Generate a portfolio optimization problem."""
@@ -62,22 +58,19 @@ class ProblemGenerator:
             for i in range(n_assets)
         ]
         
-        problem = {
+        return {
             'type': 'portfolio_optimization',
             'difficulty': difficulty,
             'parameters': {
                 'returns': returns,
                 'volatilities': volatilities,
             },
-            'question': f"""
-            Consider a portfolio with {n_assets} assets having the following annual returns and volatilities:
+            'question': f"""Consider a portfolio with {n_assets} assets having the following annual returns and volatilities:
             
             {chr(10).join(assets_info)}
             
-            Find the optimal portfolio weights that maximize the Sharpe ratio, assuming a risk-free rate of 2%.
-            """
+            Find the optimal portfolio weights that maximize the Sharpe ratio, assuming a risk-free rate of 2%."""
         }
-        return problem
 
     def generate_probability_problem(self, difficulty: str) -> Dict[str, Any]:
         """Generate a probability/statistics problem."""
@@ -85,24 +78,20 @@ class ProblemGenerator:
             return {
                 'type': 'probability',
                 'difficulty': difficulty,
-                'question': """
-                A trader observes that a stock's daily returns follow a normal distribution with 
+                'question': """A trader observes that a stock's daily returns follow a normal distribution with 
                 mean 0.1% and standard deviation 1.5%. What is the probability that tomorrow's 
-                return will be positive?
-                """
+                return will be positive?"""
             }
         else:
             return {
                 'type': 'probability',
                 'difficulty': difficulty,
-                'question': """
-                A trading strategy generates daily returns that are normally distributed with 
+                'question': """A trading strategy generates daily returns that are normally distributed with 
                 mean 0.05% and standard deviation 1.2%. If you implement this strategy with 
                 $1 million:
                 1. What is the 95% Value at Risk (VaR)?
                 2. What is the probability of losing more than $25,000 in a single day?
-                3. What is the expected number of days in a year where losses exceed $20,000?
-                """
+                3. What is the expected number of days in a year where losses exceed $20,000?"""
             }
 
     def generate_problem(self, problem_type: Optional[str] = None, difficulty: Optional[str] = None) -> Dict[str, Any]:
@@ -125,6 +114,21 @@ class ProblemGenerator:
             return self.generate_probability_problem(difficulty)
         else:
             raise ValueError(f"Unknown problem type: {problem_type}")
+
+    def refresh_scraped_questions(self):
+        """Placeholder for refreshing scraped questions."""
+        self.scraped_questions = [
+            {
+                "id": 1,
+                "question": "Explain the concept of risk-neutral pricing.",
+                "source": "QuantNet"
+            },
+            {
+                "id": 2,
+                "question": "What is the difference between implied and historical volatility?",
+                "source": "QuantNet"
+            }
+        ]
 
 if __name__ == "__main__":
     generator = ProblemGenerator()
