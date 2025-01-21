@@ -22,15 +22,15 @@ app = FastAPI(
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://ohmjariwala.github.io",
+    "https://qf-interview-tool.vercel.app",  # Remove trailing slash
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=False,  # Set to False when using "*" for origins
+    allow_origins=["*"],  # Allow all origins in development
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"]
@@ -43,11 +43,11 @@ problem_generator = ProblemGenerator()
 async def root():
     return {"message": "QF Interview Tool Python Backend API"}
 
-@app.get("/health")
+@app.get("/api/health")
 async def health_check():
     return {"status": "healthy"}
 
-@app.get("/problems/generate")
+@app.get("/api/problems/generate")
 async def generate_problem(
     problem_type: Optional[str] = Query(None, description="Type of problem to generate"),
     difficulty: Optional[str] = Query(None, description="Difficulty level of the problem")
@@ -59,7 +59,7 @@ async def generate_problem(
     except ValueError as e:
         return {"status": "error", "message": str(e)}
 
-@app.get("/problems/types")
+@app.get("/api/problems/types")
 async def get_problem_types():
     """Get available problem types."""
     return {
@@ -68,7 +68,7 @@ async def get_problem_types():
         "difficulties": problem_generator.difficulty_levels
     }
 
-@app.get("/problems/practice")
+@app.get("/api/problems/practice")
 async def get_practice_problems():
     """Get a list of practice problems."""
     try:
@@ -105,7 +105,7 @@ async def get_practice_problems():
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
-@app.get("/problems/interview")
+@app.get("/api/problems/interview")
 async def get_interview_questions(
     count: Optional[int] = Query(10, description="Number of questions to return"),
     source: Optional[str] = Query(None, description="Source of questions (PDF or QuantNet)")
@@ -130,6 +130,9 @@ async def get_interview_questions(
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+# This is the handler that Vercel will use
+app = app
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))

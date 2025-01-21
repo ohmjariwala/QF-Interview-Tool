@@ -3,4 +3,4 @@ uvicorn==0.27.0
 python-dotenv==1.0.1
 numpy==1.26.3
 pandas==2.2.0
-scipy==1.12.0
+scipy==1.12.0 
