@@ -14,8 +14,8 @@ problem_generator = ProblemGenerator()
 def handle_generate(params):
     """Handle generate problem request."""
     problem = problem_generator.generate_problem(
-        params.get('problem_type'),
-        params.get('difficulty')
+        params.get('problem_type', [None])[0],
+        params.get('difficulty', [None])[0]
     )
     return {"status": "success", "problem": problem}
 
@@ -60,7 +60,7 @@ def handle_practice():
     ]
     return {"status": "success", "problems": problems}
 
-def handler(request):
+async def handler(request):
     """Main handler function for Vercel serverless deployment."""
     # Set default headers
     headers = {
@@ -70,29 +70,33 @@ def handler(request):
         'Access-Control-Allow-Headers': 'Content-Type'
     }
 
-    # Handle OPTIONS request for CORS
-    if request.method == 'OPTIONS':
-        return {
-            'statusCode': 200,
-            'headers': headers,
-            'body': ''
-        }
-
     try:
-        # Parse path and query parameters
-        path = request.path
-        params = parse_qs(urlparse(request.url).query)
-        params = {k: v[0] for k, v in params.items()}
+        # Get the HTTP method
+        method = request.get('method', '')
+
+        # Handle OPTIONS request for CORS
+        if method == 'OPTIONS':
+            return {
+                'statusCode': 200,
+                'headers': headers,
+                'body': ''
+            }
+
+        # Parse URL from request
+        url = request.get('url', '')
+        parsed_url = urlparse(url)
+        path = parsed_url.path
+        query_params = parse_qs(parsed_url.query)
 
         # Route the request
         if path == '/api/problems/generate':
-            response_data = handle_generate(params)
+            response_data = handle_generate(query_params)
         elif path == '/api/problems/types':
             response_data = handle_types()
         elif path == '/api/problems/practice':
             response_data = handle_practice()
         else:
-            response_data = {"status": "error", "message": "Invalid endpoint"}
+            response_data = {"status": "error", "message": f"Invalid endpoint: {path}"}
             return {
                 'statusCode': 404,
                 'headers': headers,
@@ -106,7 +110,12 @@ def handler(request):
         }
 
     except Exception as e:
-        error_response = {"status": "error", "message": str(e)}
+        error_response = {
+            "status": "error", 
+            "message": str(e),
+            "path": path if 'path' in locals() else 'unknown',
+            "method": method if 'method' in locals() else 'unknown'
+        }
         return {
             'statusCode': 500,
             'headers': headers,

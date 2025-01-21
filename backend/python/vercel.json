@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/problems.py",
+      "src": "api/*.py",
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.12",
@@ -17,7 +17,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/api/problems.py"
+      "dest": "/api/index.py"
     }
   ]
 } 
