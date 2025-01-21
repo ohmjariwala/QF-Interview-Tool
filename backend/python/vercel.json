@@ -2,14 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/main.py",
+      "src": "vercel_app.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/main.py"
+      "dest": "vercel_app.py",
+      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
     }
-  ]
+  ],
+  "env": {
+    "APP_MODULE": "src.main:app"
+  }
 } 

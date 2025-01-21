@@ -22,9 +22,9 @@ app = FastAPI(
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://qf-interview-tool.vercel.app",  # Remove trailing slash
-    "http://localhost:3000",
-    "http://127.0.0.1:3000"
+    "https://qf-interview-tool.vercel.app",
+    "https://qf-interview-tool-git-main.vercel.app",
+    "https://qf-interview-tool-ohmjariwala.vercel.app"
 ]
 
 app.add_middleware(
