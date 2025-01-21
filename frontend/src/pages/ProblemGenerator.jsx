@@ -11,7 +11,7 @@ import {
   CircularProgress,
   Alert,
 } from '@mui/material';
-import { generateProblemUrl, fetchApi } from '../config/api';
+import { generateProblemUrl } from '../config/api';
 
 function ProblemGenerator() {
   const [problemType, setProblemType] = useState('');
@@ -25,7 +25,7 @@ function ProblemGenerator() {
     'portfolio_optimization',
     'probability',
     'statistics',
-    'stochastic_processes'
+    'stochastic_processes',
   ];
 
   const difficulties = ['easy', 'medium', 'hard'];
@@ -34,17 +34,17 @@ function ProblemGenerator() {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchApi(generateProblemUrl(problemType, difficulty));
+      const response = await fetch(generateProblemUrl(problemType, difficulty));
+      const data = await response.json();
       if (data.status === 'success') {
         setProblem(data.problem);
       } else {
         setError(data.message || 'Failed to generate problem');
       }
     } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      setError('Failed to connect to the server. Make sure the backend is running on http://localhost:8000');
     }
+    setLoading(false);
   };
 
   return (
