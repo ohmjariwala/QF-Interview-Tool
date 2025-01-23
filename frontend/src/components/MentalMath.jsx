@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, Typography, TextField, Button, Paper, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
-import { API_BASE_URL } from '../config/api';
+import { getMentalMathUrl } from '../config/api';
 
 function MentalMath() {
     const theme = useTheme();
@@ -16,7 +16,7 @@ function MentalMath() {
     const fetchNewProblem = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`${API_BASE_URL}/problems/mental-math`);
+            const response = await axios.get(getMentalMathUrl());
             if (response.data.status === 'success') {
                 setCurrentProblem(response.data.problem);
             }
