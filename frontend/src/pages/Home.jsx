@@ -51,6 +51,35 @@ function Home() {
             </Button>
           </Paper>
         </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Paper 
+            elevation={3} 
+            sx={{ 
+              p: 3, 
+              height: '100%', 
+              display: 'flex', 
+              flexDirection: 'column',
+              background: theme => theme.palette.primary.dark,
+              color: 'white'
+            }}
+          >
+            <Typography variant="h5" gutterBottom>
+              Mental Math Challenge
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 2, flex: 1 }}>
+              Test your mental math skills! Solve as many arithmetic problems as you can in 120 seconds.
+            </Typography>
+            <Button 
+              variant="contained" 
+              color="secondary"
+              onClick={() => navigate('/mental-math')}
+              fullWidth
+            >
+              Take the Challenge
+            </Button>
+          </Paper>
+        </Grid>
       </Grid>
     </Box>
   );
