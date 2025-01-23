@@ -10,19 +10,18 @@ A full-stack application designed to help quantitative researchers and traders p
   - Stochastic Processes (Brownian Motion, Martingales)
   - Probability & Statistics
 
-- **Practice Mode**: Curated collection of interview problems with detailed solutions
+- **Practice Mode**: Curated collection of interview problems with detailed solutions (updated with problems that I encounter over time and will eventually be scaled to web-scrape and update)
 
-- **Mental Math Challenge**: 120-second arithmetic challenge for developing quick numerical intuition
+- **Mental Math Challenge**: 120-second arithmetic challenge for developing quick numerical intuition (0-100 +-*/)
 
 ## Technical Stack
 
 ### Frontend
 - **Framework**: React 18 with Vite
-- **UI Library**: Material-UI (MUI)
 - **State Management**: React Hooks
 - **Routing**: React Router v6
 - **HTTP Client**: Axios
-- **Deployment**: GitHub Pages
+- **Deployment**: GitHub Pages (will be translated to Vercel)
 
 ### Backend
 - **Framework**: FastAPI (Python)
@@ -73,19 +72,16 @@ npm run dev
 - **Quantitative Finance**: Option pricing, portfolio theory, stochastic calculus
 - **Mathematics**: Probability, statistics, numerical methods
 - **Software Engineering**: Full-stack development, API design, state management
-- **Best Practices**: Clean code, modular design, responsive UI
 
 ## Future Enhancements
 
 - Monte Carlo simulations for option pricing
-- Integration with market data APIs
+- Integration with market data APIs for live data problems
 - Machine learning-based problem difficulty adjustment
-- Additional interview preparation resources
+- Coding IDE for programming questions (similar to projecteuler.net -> reference my Project-Euler repository for some solutions!)
 
 ## Author
-
-Ohm Jariwala
+Ohm Jariwala - ohmjariwala@gmail.com
 
 ## License
-
 MIT License 
