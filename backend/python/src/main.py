@@ -51,18 +51,7 @@ async def generate_problem(
 @app.get("/problems/practice")
 async def get_practice_problems():
     try:
-        # Generate a few sample problems for practice
-        problems = [
-            problem_generator.generate_problem("option_pricing", "easy"),
-            problem_generator.generate_problem("portfolio_optimization", "medium"),
-            problem_generator.generate_problem("probability", "hard")
-        ]
-        # Add titles and IDs for the practice problems
-        for i, prob in enumerate(problems):
-            prob["id"] = i + 1
-            prob["title"] = f"{prob['type'].replace('_', ' ').title()} Problem {i + 1}"
-            prob["description"] = f"A {prob['difficulty']} {prob['type'].replace('_', ' ')} problem"
-        
+        problems = problem_generator.get_practice_problems()
         return {"status": "success", "problems": problems}
     except Exception as e:
         return {"status": "error", "message": str(e)}
