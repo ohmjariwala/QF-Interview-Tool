@@ -11,7 +11,8 @@ class ProblemGenerator:
             'portfolio_optimization',
             'probability',
             'statistics',
-            'stochastic_processes'
+            'stochastic_processes',
+            'mental_math'
         ]
         self.practice_problems = self._initialize_practice_problems()
 
@@ -513,11 +514,46 @@ class ProblemGenerator:
                 """
             }
 
+    def generate_mental_math_problem(self) -> Dict[str, Any]:
+        """Generate a mental math problem with a single operation."""
+        num1 = random.randint(0, 100)
+        num2 = random.randint(0, 100)
+        operations = ['+', '-', '*', '/']
+        operation = random.choice(operations)
+        
+        # For division, ensure we have clean division (no decimals)
+        if operation == '/':
+            # Generate a divisor between 1 and 20 for manageable division
+            num2 = random.randint(1, 20)
+            # Generate num1 as a multiple of num2
+            multiplier = random.randint(0, 5)
+            num1 = num2 * multiplier
+        
+        question = f"{num1} {operation} {num2}"
+        
+        # Calculate the correct answer
+        if operation == '+':
+            answer = num1 + num2
+        elif operation == '-':
+            answer = num1 - num2
+        elif operation == '*':
+            answer = num1 * num2
+        else:  # division
+            answer = num1 // num2
+        
+        return {
+            'type': 'mental_math',
+            'question': question,
+            'answer': answer,
+            'time_limit': 120,  # 120 seconds for the entire session
+            'explanation': f"The answer to {question} is {answer}"
+        }
+
     def generate_problem(self, problem_type: str = None, difficulty: str = None) -> Dict[str, Any]:
         """Generate a random problem based on type and difficulty."""
         if problem_type is None:
             problem_type = random.choice(self.problem_types)
-        if difficulty is None:
+        if difficulty is None and problem_type != 'mental_math':
             difficulty = random.choice(self.difficulty_levels)
 
         if problem_type == 'option_pricing':
@@ -528,6 +564,8 @@ class ProblemGenerator:
             return self.generate_probability_problem(difficulty)
         elif problem_type == 'stochastic_processes':
             return self.generate_stochastic_process_problem(difficulty)
+        elif problem_type == 'mental_math':
+            return self.generate_mental_math_problem()
         else:
             raise ValueError(f"Unknown problem type: {problem_type}")
 

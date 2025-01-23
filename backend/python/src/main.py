@@ -65,6 +65,15 @@ async def get_problem_types():
         "difficulties": problem_generator.difficulty_levels
     }
 
+@app.get("/problems/mental-math")
+async def generate_mental_math():
+    """Generate a mental math problem."""
+    try:
+        problem = problem_generator.generate_problem(problem_type='mental_math')
+        return {"status": "success", "problem": problem}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
 if __name__ == "__main__":
     port = int(os.getenv("PYTHON_PORT", 8000))
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True) 
