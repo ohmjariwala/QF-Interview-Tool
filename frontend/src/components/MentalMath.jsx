@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Typography, TextField, Button, Paper, CircularProgress } from '@mui/material';
+import { Box, Typography, TextField, Button, Paper, CircularProgress, Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import { getMentalMathUrl } from '../config/api';
@@ -12,16 +12,22 @@ function MentalMath() {
     const [currentProblem, setCurrentProblem] = useState(null);
     const [userAnswer, setUserAnswer] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [gameOver, setGameOver] = useState(false);
 
     const fetchNewProblem = async () => {
         try {
             setLoading(true);
+            setError(null);
             const response = await axios.get(getMentalMathUrl());
-            if (response.data.status === 'success') {
+            if (response.data.status === 'success' && response.data.problem) {
                 setCurrentProblem(response.data.problem);
+            } else {
+                setError('Failed to load problem');
             }
         } catch (error) {
             console.error('Error fetching problem:', error);
+            setError('Failed to connect to server');
         } finally {
             setLoading(false);
         }
@@ -31,6 +37,7 @@ function MentalMath() {
         setIsActive(true);
         setScore(0);
         setTimeLeft(120);
+        setGameOver(false);
         await fetchNewProblem();
     };
 
@@ -54,6 +61,7 @@ function MentalMath() {
         } else if (timeLeft === 0) {
             setIsActive(false);
             setCurrentProblem(null);
+            setGameOver(true);
         }
         return () => clearInterval(interval);
     }, [isActive, timeLeft]);
@@ -71,7 +79,30 @@ function MentalMath() {
                     Mental Math Challenge
                 </Typography>
                 
-                {!isActive ? (
+                {error && (
+                    <Alert severity="error" sx={{ mb: 2 }}>
+                        {error}
+                    </Alert>
+                )}
+
+                {gameOver ? (
+                    <Box>
+                        <Typography variant="h5" sx={{ mb: 2 }}>
+                            Game Over!
+                        </Typography>
+                        <Typography variant="h6" sx={{ mb: 2 }}>
+                            Final Score: {score}
+                        </Typography>
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            onClick={startGame}
+                            sx={{ mt: 2 }}
+                        >
+                            Play Again
+                        </Button>
+                    </Box>
+                ) : !isActive ? (
                     <Button 
                         variant="contained" 
                         color="primary" 

@@ -1,8 +1,5 @@
-const isDevelopment = window.location.hostname === 'localhost';
-
-export const API_BASE_URL = isDevelopment 
-  ? 'http://localhost:8000'
-  : 'https://api.qf-interview-tool.com';  // You'll need to update this with your actual API URL
+// For now, we'll use localhost for all environments since we're running the backend locally
+export const API_BASE_URL = 'http://localhost:8000';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
